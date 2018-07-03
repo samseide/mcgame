@@ -8,9 +8,9 @@ A multi-player, multi-screen game built to experiment with Socket.IO and Node.js
 ## To Install
 
 1. Ensure Node.js is installed
-2. Clone this repository - `git clone https://github.com/ericterpstra/anagrammatix.git`
+2. Clone this repository - `git clone https://github.com/samseide/mcgame.git`
 3. Install the dependences:
-    1. `cd mis_mediacurrent_game`
+    1. `cd mcgame`
     2. `npm install`
 4. Start the server: `node index.js`
 5. Visit http://127.0.0.1:8080 in a browser and click CREATE.
