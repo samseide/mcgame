@@ -296,33 +296,39 @@ function shuffle(array) {
  */
 var questionPool = [
     {
-        "question": [ "Pocahontas was supposed to have a talking pet what?" ],
-        "answer" : ["Turkey"],
+        "question" : [ "Pocahontas was supposed to have a talking pet what?" ],
+        "answer" : [ "Turkey" ],
         "decoys" : [ "Squirrel", "Wolf", "Mockingbird", "Turtle" ]
     },
 
     {
-        "question": [ "Who refused to play the part of the vultures in The Jungle Book?" ],
-        "answer" : ["The Beatles"],
+        "question" : [ "Who refused to play the part of the vultures in The Jungle Book?" ],
+        "answer" : [ "The Beatles" ],
         "decoys" : [ "The Rolling Stones", "The Grateful Dead", "Aerosmith", "Tom Petty and the Heartbreakers" ]
     },
 
     {
-        "question": [ "Which two characters used the same voice actor?" ],
-        "answer": ["Eeyore and Optimus Prime"],
+        "question" : [ "Which two characters used the same voice actor?" ],
+        "answer" : [ "Eeyore and Optimus Prime" ],
         "decoys" : [ "Bugs Bunny and Daffy Duck", "Minnie Mouse and Elsa", "Aladdin and Flynn Rider" ]
     },
 
     {
-        "question"  : [ "The Lady and the Tramp was almost called:" ],
-        "answer": ["All of these Answers"],
+        "question" : [ "The Lady and the Tramp was almost called:" ],
+        "answer" : [ "All of these Answers" ],
         "decoys" : [ "The Lady and the Bozo", "The Lady and the Homer", "The Lady and the Rags" ]
     },
 
     {
-        "question"  : [ "How old is Ariel when she marries Eric in The Little Mermaid?" ],
-        "answer": ["16"],
+        "question" : [ "How old is Ariel when she marries Eric in The Little Mermaid?" ],
+        "answer" : [ "16" ],
         "decoys" : [ "21","19","13","25" ]
+    },
+
+    {
+        "question" : [ "What makes Chris and Kelly the coolest?"],
+        "answer" : [ "Everything" ],
+        "decoys" : [ "The way their hair smells", "Their commitment to Didneyland", "Their youtube selections"]
     }
 
 ]
