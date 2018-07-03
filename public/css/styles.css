@@ -249,7 +249,7 @@ html, body {
     margin: auto;
     bottom: 0;
     left: 0;
-    top: 0;
+    top: 50%;
     right: 0;
     color: #FFF;
 }
@@ -316,11 +316,11 @@ html, body {
     background-color: #E4B038;
 }
 
-#player1Score {
+#player1Score, #player3Score, #player5Score {
     float: left;
 }
 
-#player2Score {
+#player2Score, #player4Score, #player6Score {
     float: right;
     text-align: right;
 }

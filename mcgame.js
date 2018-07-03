@@ -62,7 +62,7 @@ function hostPrepareGame(gameId) {
         mySocketId : sock.id,
         gameId : gameId
     };
-    //console.log("All Players Present. Preparing game...");
+    console.log("All Players Present. Preparing game...");
     io.sockets.in(data.gameId).emit('beginNewGame', data);
 }
 
@@ -186,7 +186,7 @@ function playerJoinGame(data) {
  * @param data gameId
  */
 function playerAnswer(data) {
-    // console.log('Player ID: ' + data.playerId + ' answered a question with: ' + data.answer);
+    console.log('Player ID: ' + data.playerId + ' answered a question with: ' + data.answer);
 
     // The player's answer is attached to the data object.  \
     // Emit an event with the answer so it can be checked by the 'Host'
@@ -212,7 +212,7 @@ function playerRestart(data) {
    ************************* */
 
 /**
- * Get a question for the host, and a list of questions for the player.
+ * Get a question for the host, and a list of answers for the player.
  *
  * @param questionPoolIndex
  * @param gameId The room identifier

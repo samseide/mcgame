@@ -73,7 +73,7 @@ jQuery(function($){
          * @param data {{playerName: string, gameId: int, mySocketId: int}}
          */
         playerJoinedRoom : function(data) {
-            // When a player joins a room, do the updateWaitingScreen funciton.
+            // When a player joins a room, do the updateWaitingScreen function.
             // There are two versions of this function: one for the 'host' and
             // another for the 'player'.
             //
@@ -283,33 +283,38 @@ jQuery(function($){
                 // Fill the game screen with the appropriate HTML
                 App.$gameArea.html(App.$templateNewGame);
 
-                // Uncomment for local LAN game.
-                // // Get local ip for game.
-                // window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;   //compatibility for firefox and chrome
-                // var pc = new RTCPeerConnection({iceServers:[]}), noop = function(){};
-                // pc.createDataChannel("");    //create a bogus data channel
-                // pc.createOffer(pc.setLocalDescription.bind(pc), noop);    // create offer and set local description
-                // pc.onicecandidate = function(ice){  //listen for candidate events
-                //   if(!ice || !ice.candidate || !ice.candidate.candidate)  return;
-                //   var myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
-                //   pc.onicecandidate = noop;
-                //   console.log('my IP: ', myIP);
+                // Set this to 1 if game is not running locally.
+                var localGame = 1;
 
-                //   // Display the URL on screen
-                //   $('#gameURL').text("http://" + myIP + ":8080");
-                //   App.doTextFit('#gameURL');
+                if (localGame === 0) {
+                    // Get local ip for game.
+                    window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;   //compatibility for firefox and chrome
+                    var pc = new RTCPeerConnection({iceServers:[]}), noop = function(){};
+                    pc.createDataChannel("");    //create a bogus data channel
+                    pc.createOffer(pc.setLocalDescription.bind(pc), noop);    // create offer and set local description
+                    pc.onicecandidate = function(ice){  //listen for candidate events
+                    if(!ice || !ice.candidate || !ice.candidate.candidate)  return;
+                    var myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
+                    pc.onicecandidate = noop;
+                    console.log('my IP: ', myIP);
 
-                //   // Make a QR Code
-                //   new QRCode(document.getElementById("gameQR"), "http://" + myIP + ":8080");
-                // };
+                    // Display the URL on screen
+                    $('#gameURL').text("http://" + myIP + ":8080");
+                    App.doTextFit('#gameURL');
 
-                // Use this for games on public domains.
-                // Display the URL on screen
-                $('#gameURL').text("https://guarded-gorge-51517.herokuapp.com/");
-                App.doTextFit('#gameURL');
+                    // Make a QR Code
+                    new QRCode(document.getElementById("gameQR"), "http://" + myIP + ":8080");
+                    };
+                }
+                else {
+                    // Use this for games on public domains.
+                    // Display the URL on screen
+                    $('#gameURL').text("https://guarded-gorge-51517.herokuapp.com/");
+                    App.doTextFit('#gameURL');
 
-                // Make a QR Code
-                new QRCode(document.getElementById("gameQR"), "https://guarded-gorge-51517.herokuapp.com/");
+                    // Make a QR Code
+                    new QRCode(document.getElementById("gameQR"), "https://guarded-gorge-51517.herokuapp.com/");
+                }
 
                 // Use this line for both public and private games.
                 // Show the gameId / room id on screen
@@ -336,11 +341,11 @@ jQuery(function($){
                 // Increment the number of players in the room
                 App.Host.numPlayersInRoom += 1;
 
-                // If two players have joined, start the game!
-                if (App.Host.numPlayersInRoom === 2) {
+                // If six players have joined, start the game!
+                if (App.Host.numPlayersInRoom === 6) {
                     // console.log('Room is full. Almost ready!');
 
-                    // Let the server know that two players are present.
+                    // Let the server know that six players are present.
                     IO.socket.emit('hostRoomFull',App.gameId);
                 }
             },
@@ -369,9 +374,30 @@ jQuery(function($){
                     .find('.playerName')
                     .html(App.Host.players[1].playerName);
 
+                $('#player3Score')
+                    .find('.playerName')
+                    .html(App.Host.players[2].playerName);
+
+                $('#player4Score')
+                    .find('.playerName')
+                    .html(App.Host.players[3].playerName);
+
+                $('#player5Score')
+                    .find('.playerName')
+                    .html(App.Host.players[4].playerName);
+
+                $('#player6Score')
+                    .find('.playerName')
+                    .html(App.Host.players[5].playerName);
+
+
                 // Set the Score section on screen to 0 for each player.
                 $('#player1Score').find('.score').attr('id',App.Host.players[0].mySocketId);
                 $('#player2Score').find('.score').attr('id',App.Host.players[1].mySocketId);
+                $('#player3Score').find('.score').attr('id', App.Host.players[2].mySocketId);
+                $('#player4Score').find('.score').attr('id', App.Host.players[3].mySocketId);
+                $('#player5Score').find('.score').attr('id', App.Host.players[4].mySocketId);
+                $('#player6Score').find('.score').attr('id', App.Host.players[5].mySocketId);
             },
 
             /**
@@ -395,7 +421,7 @@ jQuery(function($){
              */
             checkAnswer : function(data) {
                 // Verify that the answer clicked is from the current round.
-                // This prevents a 'late entry' from a player whos screen has not
+                // This prevents a 'late entry' from a player whose screen has not
                 // yet updated to the current round.
                 if (data.round === App.currentRound){
 
@@ -444,25 +470,54 @@ jQuery(function($){
                 var p2Score = +$p2.find('.score').text();
                 var p2Name = $p2.find('.playerName').text();
 
+                // Get the data for player 3 from the host screen
+                var $p3 = $('#player3Score');
+                var p3Score = +$p3.find('.score').text();
+                var p3Name = $p3.find('.playerName').text();
+
+                // Get the data for player 4 from the host screen
+                var $p4 = $('#player4Score');
+                var p4Score = +$p4.find('.score').text();
+                var p4Name = $p4.find('.playerName').text();
+
+                // Get the data for player 5 from the host screen
+                var $p5 = $('#player5Score');
+                var p5Score = +$p5.find('.score').text();
+                var p5Name = $p5.find('.playerName').text();
+
+                // Get the data for player 6 from the host screen
+                var $p6 = $('#player6Score');
+                var p6Score = +$p6.find('.score').text();
+                var p6Name = $p6.find('.playerName').text();
+
                 // Find the winner based on the scores
-                var winner = (p1Score < p2Score) ? p2Name : p1Name;
-                var tie = (p1Score === p2Score);
+                var winner = 'nobody';
+                var highestScore = Math.max(p1Score, p2Score, p3Score, p4Score, p5Score, p6Score);
+                if (p1Score === highestScore) {
+                    winner = p1Name;
+                }
+                else if (p2Score === highestScore) {
+                    winner = p2Name;
+                }
+                else if (p3Score === highestScore) {
+                    winner = p3Name;
+                }
+                else if (p4Score === highestScore) {
+                    winner = p4Name;
+                }
+                else if (p5Score === highestScore) {
+                    winner = p5Name;
+                }
+                else if (p6Score === highestScore) {
+                    winner = p6Name;
+                }
 
                 // Display the winner (or tie game message)
-                if(tie){
-                    $('#hostQuestion').text("It's a Tie!");
-                } else {
-                    $('#hostQuestion').text( winner + ' Wins!!' );
-                }
+                $('#hostQuestion').text( winner + ' Wins!!' );
+
                 App.doTextFit('#hostQuestion');
                 data.winner=winner;
-                if(data.done>0)
-                {
 
-                }
-                else data.done=0;
-                //console.log(data);
-                //IO.socket.emit("clientEndGame",data);
                 // Reset game data
                 App.Host.numPlayersInRoom = 0;
                 App.Host.isNewGame = true;
