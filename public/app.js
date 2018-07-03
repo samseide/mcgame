@@ -303,6 +303,7 @@ jQuery(function($){
                 //   new QRCode(document.getElementById("gameQR"), "http://" + myIP + ":8080");
                 // };
 
+                // Use this for games on public domains.
                 // Display the URL on screen
                 $('#gameURL').text("https://guarded-gorge-51517.herokuapp.com/");
                 App.doTextFit('#gameURL');
@@ -310,6 +311,7 @@ jQuery(function($){
                 // Make a QR Code
                 new QRCode(document.getElementById("gameQR"), "https://guarded-gorge-51517.herokuapp.com/");
 
+                // Use this line for both public and private games.
                 // Show the gameId / room id on screen
                 $('#spanNewGameCode').text(App.gameId);
             },
