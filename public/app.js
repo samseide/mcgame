@@ -283,24 +283,32 @@ jQuery(function($){
                 // Fill the game screen with the appropriate HTML
                 App.$gameArea.html(App.$templateNewGame);
 
-                // Get local ip for game.
-                window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;   //compatibility for firefox and chrome
-                var pc = new RTCPeerConnection({iceServers:[]}), noop = function(){};
-                pc.createDataChannel("");    //create a bogus data channel
-                pc.createOffer(pc.setLocalDescription.bind(pc), noop);    // create offer and set local description
-                pc.onicecandidate = function(ice){  //listen for candidate events
-                  if(!ice || !ice.candidate || !ice.candidate.candidate)  return;
-                  var myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
-                  pc.onicecandidate = noop;
-                  console.log('my IP: ', myIP);
+                // Uncomment for local LAN game.
+                // // Get local ip for game.
+                // window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;   //compatibility for firefox and chrome
+                // var pc = new RTCPeerConnection({iceServers:[]}), noop = function(){};
+                // pc.createDataChannel("");    //create a bogus data channel
+                // pc.createOffer(pc.setLocalDescription.bind(pc), noop);    // create offer and set local description
+                // pc.onicecandidate = function(ice){  //listen for candidate events
+                //   if(!ice || !ice.candidate || !ice.candidate.candidate)  return;
+                //   var myIP = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/.exec(ice.candidate.candidate)[1];
+                //   pc.onicecandidate = noop;
+                //   console.log('my IP: ', myIP);
 
-                  // Display the URL on screen
-                  $('#gameURL').text("http://" + myIP + ":8080");
-                  App.doTextFit('#gameURL');
+                //   // Display the URL on screen
+                //   $('#gameURL').text("http://" + myIP + ":8080");
+                //   App.doTextFit('#gameURL');
 
-                  // Make a QR Code
-                  new QRCode(document.getElementById("gameQR"), "http://" + myIP + ":8080");
-                };
+                //   // Make a QR Code
+                //   new QRCode(document.getElementById("gameQR"), "http://" + myIP + ":8080");
+                // };
+
+                // Display the URL on screen
+                $('#gameURL').text("https://guarded-gorge-51517.herokuapp.com/");
+                App.doTextFit('#gameURL');
+
+                // Make a QR Code
+                new QRCode(document.getElementById("gameQR"), "https://guarded-gorge-51517.herokuapp.com/");
 
                 // Show the gameId / room id on screen
                 $('#spanNewGameCode').text(App.gameId);
